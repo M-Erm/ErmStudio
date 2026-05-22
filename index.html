@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link rel="icon" href="img/favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <script src="javascript.js" defer></script>
+</head>
+
+<body>
+  <header>
+        <a href="" class="logo" data-route><h1>Erm</h1></a>
+        <div class =header-container>
+          <nav class="header-bar">
+            <a href="models" class="headerbar-element" data-route data-i18n="models">MODELS</a>
+            <a href="projects" class="headerbar-element" data-route data-i18n="projects">PROJECTS</a>
+            <a href="animations" class="headerbar-element" data-route data-i18n="animations">ANIMATIONS</a>
+            <a href="contact" class="headerbar-element" data-route data-i18n="contact">CONTACT</a>
+          </nav>
+
+          <nav class="lesser-header-bar">
+            <button onclick="ChangeLanguage('en')" class="headerbar-element">EN</button>
+            <button onclick="ChangeLanguage('pt-br')" class="headerbar-element">PT-BR</button>
+          </nav>
+        </div>
+  </header>
+
+  <main>
+    <!-- Homepage -->
+    <section id="homepage" class="page-active">
+  
+      <section class="top">
+        <div class="top-display"> 
+          <img src="img/image.png">
+          <!-- <video autoplay="" 
+            muted="" 
+            loop="" 
+            playsinline="" 
+            id="bgvid">
+            <source src="image.png"
+            type="video/webm">
+          </video> -->
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <div class="contrast-text" data-i18n="featured_projects"> FEATURED PROJECTS </div>
+
+        <div class="elements-grid">
+          <a href="projects/HoloParty" class="featured-projects"> <img src="images/projects/holoparty/holoparty-card.jpg" alt="Image Preview"></a>
+          <a href="projects/project-02" class="featured-projects"><img src="images/projects/project-02/project-02-card.jpg" alt="Image Preview"></a>
+        </div>
+
+      <div class="section-divider"></div>
+
+      <div class="contrast-text" data-i18n="featured_animations"> FEATURED ANIMATIONS </div>
+
+      <div class="elements-grid">
+        <div class="animation"></div>
+        <div class="animation"></div>
+        <div class="animation"></div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="contrast-text" data-i18n="newest_animation"> NEWEST ANIMATION </div>
+
+      <div id="video-displayer-container">
+        <div id="video-displayer"></div>
+      </div>
+      <div style="margin-left: 25%; font-size: 20px; font-weight: bold; color: #6F6F6F;">Featured Animation</div>
+      <div style="margin-left: 25%; font-size: 20px; font-weight: bold; color: #6F6F6F; margin-bottom: 5rem">See on youtube</div>
+
+
+    </section>
+
+    <!-- Projetos -->
+    <section id="projects" class="page-hidden">
+
+      <section class="top">
+        <div class="top-display">
+          <video autoplay=""
+            muted="" 
+            loop="" 
+            playsinline="" 
+            id="bgvid">
+            <source src="" 
+            type="video/webm">
+          </video>
+        </div>
+      </section>
+
+      <section id="projects-games"> <div class="section-project-name-bar"> <h1 data-i18n="games"> Games </h1> </div> <div class="projects-grid"></div> </section>
+      <section id="projects-modding"> <div class="section-project-name-bar"> <h1 data-i18n="gamemodding"> Game Modding </h1> </div> <div class="projects-grid"></div> </section>
+      <section id="projects-misc"> <div class="section-project-name-bar"> <h1 data-i18n="miscellaneous"> Miscellaneous </h1> </div> <div class="projects-grid"></div> </section>
+      <section id="projects-college"> <div class="section-project-name-bar"> <h1 data-i18n="college"> College </h1> </div> <div class="projects-grid"></div> </section>
+    </section>
+
+    <!-- Models -->
+    <section id="models" class="page-hidden">
+
+      <section class="top">
+        <div class="top-display">
+          <video autoplay=""
+            muted="" 
+            loop="" 
+            playsinline="" 
+            id="bgvid">
+            <source src="" 
+            type="video/webm">
+          </video>
+        </div>
+      </section>
+
+      <section id="models-holoparty"> <div class="model-section-title"> HoloParty </div> <ul class="models-grid" style="transform: translate3d(0px, 0px, 0px);"></ul> 
+        <div class="advice">
+          <h1 data-i18n="disclaimer"> HoloParty Models Disclaimer <br>
+            All rights to the original characters and intellectual property belong to COVER Corp.<br>
+            These models are not officially affiliated with  Hololive Production or COVER Corp. <br>
+            The models are created for use in HoloParty, an independent fan-made game project.<br>
+            This projects are not an official Hololive product.<br></h1>
+        </div>
+        
+      </section>
+
+      <section id="models-misc"> <div class="model-section-title" data-i18n="miscellaneous"> Miscellaneous </div> <ul class="models-grid"></ul> </section>
+
+    </section>
+
+    <!-- Projeto específico -->
+    <section id="project-view" class="page-hidden"> </section>
+
+    <!-- Model específico -->
+    <section id="model-view" class="page-hidden"> </section>
+
+    <!-- Animação -->
+    <section id="animations" class="page-hidden">
+
+      <section class="top">
+        <div class="top-display">
+          <video autoplay=""
+            muted="" 
+            loop="" 
+            playsinline="" 
+            id="bgvid">
+            <source src="" 
+            type="video/webm">
+          </video>
+        </div>
+      </section>
+
+      <div class="contrast-text" style="color: white;" data-i18n="video_animations"> VIDEO ANIMATIONS </div>
+
+        <div class="elements-grid">
+          <div class="animation"></div>
+          <div class="animation"></div>
+          <div class="animation"></div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="contrast-text" style="color: white;" data-i18n="holoparty_animations"> HOLOPARTY ANIMATIONS</div>
+
+          <div class="elements-grid">
+            <div class="animation"></div>
+            <div class="animation"></div>
+            <div class="animation"></div>
+          </div>
+
+    </section>
+
+   <!-- Contact && SNS -->
+    <section id="contact" class="page-hidden">
+      
+      <h1 style="text-align: center; font-family: 'Times New Roman', Times, serif  ; font-weight: bold ; font-size: 8rem; margin:15rem;" data-i18n="about">ABOUT</h1>
+      <section id="about">
+        <h1 data-i18n="whoami"> Who Am I? </h1>
+
+        <div class="about-info"> 
+          <img src="images/profile-pic.png" alt="Profile picture" id="profile-pic">
+          <p data-i18n="about_me"> I am a Software Engineer who likes Game Development, 3D Modeling and Animation. I like developing projects, understanding how things happen and the different ways to create something </p>
+        </div>
+      </section>
+      
+      <section id="sns">
+
+        <div style="width: 80vw; height: 1px; background-color: grey; margin: 3%;"></div>
+
+        <div class="sns" data-i18n="officialsns"> Official SNS </div>
+
+        <div id="contact-grid">
+          <a href="mailto:migueloliv.dev@gmail.com" class="contacts">Email</a>
+          <a href="https://github.com/M-Erm" class="contacts"> Github </a>
+          <a href="https://www.youtube.com/@7_Erm" class="contacts"> Youtube </a>
+          <a href="https://x.com/7_Erm_" class="contacts"> X </a>
+          <a href="https://sketchfab.com/M-erm" class="contacts"> Sketchfab </a>
+          <a href="https://www.linkedin.com/in/miguel-oliv/" class="contacts"> Linkedin </a>
+          <a href="https://steamcommunity.com/profiles/76561199192109224/" class="contacts"> Steam </a>
+          <a href="https://schie.itch.io/ " class="contacts"> Itch.io </a>
+        </div>
+      
+        <div style="width: 80vw; height: 1px; background-color: grey; margin-top: 3%;"></div>
+
+        <section id="qapanel">
+
+          <h1 class="qatext"> Q/A</h1>
+
+          <div id="qa">
+            <div class="question" data-i18n="q"> Q: Do you Have A Job Preference?</div>
+            <div class="answer" data-i18n="A1">A: Yes. Programming, but I would totally work with 3D!</div>
+            <div class="question" data-i18n="Q2"> Q: Since When do you program? </div>
+            <div class="answer" data-i18n="A2"> A: Made my first program using python when I was 15 years old.</div>
+            <div class="question" data-i18n="Q3"> Q: What Languages do you speak? </div>
+            <div class="answer" data-i18n="A3">A: Portuguese, English, Japanese and Spanish.</div>
+          </div>
+        </section>
+      </section>
+
+    </section>
+
+  </main>
+</body>
+</html>

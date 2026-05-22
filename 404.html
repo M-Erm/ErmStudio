@@ -1,0 +1,14 @@
+
+<!-- Fallback padrão do Github pages, o nome 404 é obrigatório e convenção -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        const originalPath = location.pathname + location.search + location.hash; // Salva a rota original
+        sessionStorage.setItem('redirectPath', originalPath);
+        
+        location.replace('/Portfolio-old-Test/'); // Redireciona para homepage
+    </script>
+</head>
+</html>
