@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NamaStream</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero / Overview Section -->
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="hero-text">
+                    <h1>NamaStream</h1>
+                    <p>A Firefox new tab extension that replaces your browser's default new tab with a real-time dashboard of VTuber live streams and upcoming schedules, trying to mimic the firefox default new tab layout. Powered by the YouTube and Twitch APIs.</p>
+                    <p class="subtitle"> Backend built on Cloudflare Workers with CacheKV and Cron Triggers</p>
+                </div>
+                <div class="hero-image">
+                    <img src="/Portfolio/images/projects/namastream/namastream-card.jpg" alt="NamaStream main interface">
+                </div>
+            </div>
+        </section>
+
+        <!-- wallpaper/ seção 1 -->
+        <section class="feature-section">
+            <div class="feature-layout">
+                <div class="feature-image">
+                    <img src="/Portfolio/images/projects/namastream/namastream-1.jpg" alt="Wallpaper customization feature">
+                </div>
+                <div class="feature-text">
+                    <h2>Custom Wallpapers</h2>
+                    <p>Set custom wallpapers from URLs, upload from your PC, or rotate through saved collections.</p>
+                    <p>It is possible to upload images, or just use the defaults. Everything syncs with your browser preferences.</p>
+                    <ul class="feature-list">
+                        <li>Set wallpapers from URLs or local files</li>
+                        <li>Save and rotate between multiple images</li>
+                        <li>Image compression for better performance</li>
+                        <li>Persistent storage across sessions</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popup/ seção 2  -->
+        <section class="feature-section">
+            <div class="feature-layout reversed">
+                <div class="feature-text">
+                    <h2>Custom Layout</h2>
+                    <p>In the popup it is possible to disable/enable certain channels, enable/disable bars, and tweak the layout, resizing / repositioning the bars</p>
+                    <p>It is also possible to pin your favorite channels to appear first, Sort channels, et cetera.</p>
+                    <ul class="feature-list">
+                        <li>Enable/disable individual channels</li>
+                        <li>Sort by generation or manual order</li>
+                        <li>Reposition stream bars</li>
+                        <li>Resize panels for better viewing</li>
+                    </ul>
+                </div>
+                <div class="feature-image image-viewer">
+                    <div class="image-viewer-container">
+                        <button class="nav-arrow prev" onclick="prevImage()">‹</button>
+                        <img id="viewerImage"  alt="Settings interface">
+                        <button class="nav-arrow next" onclick="nextImage()">›</button>
+                    </div>
+                    <div class="viewer-indicators">
+                        <span class="indicator active" onclick="goToImage(0)"></span>
+                        <span class="indicator" onclick="goToImage(1)"></span>
+                        <span class="indicator" onclick="goToImage(2)"></span>
+                    </div>
+                    <p class="viewer-caption">Customized layout example & Popup</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

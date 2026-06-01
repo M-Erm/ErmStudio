@@ -118,7 +118,12 @@ function changePage(path)
     if (base === "projects")
     {
         if (id)
-            Load_Details_Project(id);
+        {
+            if (id.toLowerCase() === "namastream")
+                LoadNamaStreamView();
+            else
+                Load_Details_Project(id);
+        }
         else
             Load_Projects();
     }
@@ -128,10 +133,6 @@ function changePage(path)
             Load_Details_Models(id);
         else
             Load_Models();
-    }
-    if (id === "NamaStream")
-    {
-        LoadNamaStreamView()
     }
 }
 
@@ -328,6 +329,12 @@ function Toggle2D()
     document.getElementById("threed-view").style.display = "none";
 }
 
+function LoadNamaStreamView()
+{
+    const projectView = document.getElementById("project-view");
+    projectView.innerHTML = `<iframe src="${BASE_PATH}/views/namastream/index.html" style="width: 100%; height: 100vh;"></iframe>`;
+}
+
 function ChangeLanguage(targetLanguage) 
 {
     currentLanguage = targetLanguage;
@@ -380,6 +387,7 @@ window.ChangeDisplayImage = ChangeDisplayImage;
 window.ChangeProjectImage = ChangeProjectImage;
 window.Toggle3D = Toggle3D;
 window.Toggle2D = Toggle2D;
+window.LoadNamaStreamView = LoadNamaStreamView;
 
 window.addEventListener("DOMContentLoaded", () => {
     const redirectPath = sessionStorage.getItem('redirectPath');
