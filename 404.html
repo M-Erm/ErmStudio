@@ -5,10 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        const originalPath = location.pathname + location.search + location.hash; // Salva a rota original
+        const originalPath = location.pathname + location.search + location.hash; // Salva rota original
         sessionStorage.setItem('redirectPath', originalPath);
         
-        location.replace('/Portfolio-old-Test/'); // Redireciona para homepage
+        const repoName = location.pathname.split('/').filter(Boolean)[0];
+        location.replace(`/${repoName}/`);
     </script>
 </head>
 </html>

@@ -1,0 +1,41 @@
+[
+    {
+        "id": "model-01",
+        "name": "Mococo Abyssgard",
+        "desc": "Unofficial",
+        "type": "HoloParty",
+        "imagesCount": "4",
+        "model": "",
+        "sketchfab": ""
+    },
+
+    {
+        "id": "model-02",
+        "name": "Fuwawa Abyssgard",
+        "desc": "Unofficial",
+        "type": "HoloParty",
+        "imagesCount": "4",
+        "model": "",
+        "sketchfab": ""
+    },
+    
+    {
+        "id": "model-03",
+        "name": "",
+        "desc": "Unofficial",
+        "type": "HoloParty",
+        "imagesCount": "4",
+        "model": "",
+        "sketchfab": ""
+    },
+
+    {
+        "id": "model-04",
+        "name": "",
+        "desc": "Unofficial",
+        "type": "HoloParty",
+        "imagesCount": "4",
+        "model": "",
+        "sketchfab": ""
+    }
+]
