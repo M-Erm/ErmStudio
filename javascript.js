@@ -20,20 +20,8 @@ const getBasePath = () => {
     return "/Portfolio";
 };
 
-const getImagePath = () => {
-    const hostname = window.location.hostname;
-    
-    if (hostname.includes('github.io')) {
-        const pathname = window.location.pathname;
-        const repoName = pathname.split('/').filter(Boolean)[0];
-        return `/${repoName}`;
-    }
-    
-    return "";
-};
 
 const BASE_PATH = getBasePath(); // Esperado: Local: "/Portfolio", Remoto: "/NomeDoRepo"
-const IMAGE_PATH = getImagePath();
 let currentLanguage = "en";
 
 const pages = document.querySelectorAll("main > section");
@@ -59,10 +47,10 @@ const modelsData = models.map(model => ({
 
 function buildImages(type, id, imageCount) {
   return {
-    card: `${BASE_PATH}/${IMAGE_PATH}/images/${type}/${id}/${id}-card.jpg`,
+    card: `${BASE_PATH}/images/${type}/${id}/${id}-card.jpg`,
     gallery: Array.from(
       { length: imageCount },
-      (_, i) => `${BASE_PATH}/${IMAGE_PATH}/images/${type}/${id}/${id}-${i + 1}.jpg`
+      (_, i) => `${BASE_PATH}/images/${type}/${id}/${id}-${i + 1}.jpg`
     )
   };
 }
