@@ -234,10 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.parent.postMessage({ type: 'NAMASTREAM_READY' }, '*');
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') nextImage();
-        if (e.key === 'ArrowLeft') prevImage();
-    });
+    document.getElementById('next-btn') ?.addEventListener('click', nextImage);
+    document.getElementById('prev-btn') ?.addEventListener('click', prevImage);
 });
 
 window.addEventListener('message', (event) => { // Basicamente um handshake, onde ouve um Post e se atualiza, por garantia também fiz re-renderizar, essa bosta
