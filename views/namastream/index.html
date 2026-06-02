@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NamaStream</title>
+    <title>Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script type="module" src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <!-- Hero / Overview Section -->
+
+        <!-- Hero -->
         <section class="hero">
             <div class="hero-inner">
                 <div class="hero-text">
@@ -27,7 +28,7 @@
         <section class="feature-section">
             <div class="feature-layout">
                 <div class="feature-image">
-                    <img src="/Portfolio/images/projects/namastream/namastream-1.jpg" alt="Wallpaper customization feature">
+                    <img src="/Portfolio/images/projects/namastream/namastream-3.jpg" alt="Wallpaper customization feature">
                 </div>
                 <div class="feature-text">
                     <h2>Custom Wallpapers</h2>
@@ -69,6 +70,24 @@
                         <span class="indicator" onclick="goToImage(2)"></span>
                     </div>
                     <p class="viewer-caption">Customized layout example & Popup</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Streams Bars Section -->
+        <section class="bars-section">
+            <div class="bars-container">
+                <div id="youtube" class="info-bar">
+                    <div class="bar-title">YouTube Streams</div>
+                    <div class="scroll-container"></div>
+                </div>
+                <div id="agenda" class="info-bar">
+                    <div class="bar-title">Scheduled</div>
+                    <div class="scroll-container"></div>
+                </div>
+                <div id="twitch" class="info-bar">
+                    <div class="bar-title">Twitch Streams</div>
+                    <div class="scroll-container"></div>
                 </div>
             </div>
         </section>

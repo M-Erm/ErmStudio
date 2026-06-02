@@ -24,7 +24,15 @@
         "Q3":"Q: What Languages do you speak?",
         "A1":"A: Yes. Programming, but I would totally work with 3D!",
         "A2":"A: Started in 2023 as a hobby and 2025 as a career",
-        "A3":"A: Portuguese, English, Japanese and Spanish."
+        "A3":"A: Portuguese, English, Japanese and Spanish.",
+
+        "watching_now": "watching now",
+        "hours": " hours",
+        "hour": " hour",
+        "in_1_minute": "in 1 minute",
+        "minutes": " minutes",
+        "in": "in ",
+        "starts": "Starts"
     },
 
     "pt-br": {
@@ -52,6 +60,14 @@
         "Q3":"Q: Quais linguages você fala?",
         "A1":"A: Sim. Programação, mas eu totalmente trabalharia com 3D!",
         "A2":"A: Comecei em 2023 como hobby e 2025 como carreira",
-        "A3":"Português, Inglês, Japonês e Espanhol."
+        "A3":"Português, Inglês, Japonês e Espanhol.",
+
+        "watching_now": "assistindo agora",
+        "in": "em ",
+        "starts": "Começa",
+        "hours": " horas",
+        "hour": " hora",
+        "in_1_minute": "em 1 minuto",
+        "minutes": " minutos"
     }
 }

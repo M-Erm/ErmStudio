@@ -26,10 +26,14 @@ The project is a single-page application built with vanilla JavaScript. It uses 
 
 ```
 Portfolio/
-├── img/
+├── 3D-Models/
+├── animations/
+├── data/
+├── images/
 │   ├── models/
 │   └── projects/
-├── 3D-Models/
+├── views/
+│   ├── namastream/
 ├── index.html
 ├── style.css
 ├── javascript.js

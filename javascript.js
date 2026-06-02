@@ -8,6 +8,9 @@ import models from './data/models.json' with { type: 'json' };
 import projects from './data/projects.json' with { type: 'json' };
 import animationsData from './data/animations.json' with { type: 'json' };
 
+export const languageState = { current: "en" };
+export let currentLanguage = languageState.current;
+
 const getBasePath = () => {
     const hostname = window.location.hostname;
     
@@ -22,7 +25,6 @@ const getBasePath = () => {
 
 
 const BASE_PATH = getBasePath(); // Esperado: Local: "/Portfolio", Remoto: "/NomeDoRepo"
-let currentLanguage = "en";
 
 const pages = document.querySelectorAll("main > section");
 const main_page = document.getElementById('homepage');
@@ -104,8 +106,13 @@ function changePage(path)
         page.classList.add('page-hidden');
     });
 
-    document.getElementById("project-view").innerHTML = "";
-    document.getElementById("model-view").innerHTML = "";
+    const el = document.getElementById("project-view"); // Limpa pages dinamicas toda troca de página, mais para otimização
+    if (el)
+        el.innerHTML = "";
+    
+    const el2 = document.getElementById("model-view");
+    if (el2)
+        el2.innerHTML = "";
 
     const newPage = document.getElementById(pageId);
 
@@ -332,13 +339,19 @@ function Toggle2D()
 function LoadNamaStreamView()
 {
     const projectView = document.getElementById("project-view");
-    projectView.innerHTML = `<iframe src="${BASE_PATH}/views/namastream/index.html" style="width: 100%; height: 100vh;"></iframe>`;
+    projectView.innerHTML = `<iframe id="namastream-iframe" src="${BASE_PATH}/views/namastream/index.html" style="width: 100%; height: 100vh;"></iframe>`;
 }
 
-function ChangeLanguage(targetLanguage) 
+function ChangeLanguage(targetLanguage)
 {
+    languageState.current = targetLanguage;
     currentLanguage = targetLanguage;
-    
+
+    const iframe = document.getElementById('namastream-iframe');
+    if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ type: 'LANGUAGE_CHANGED', language: targetLanguage }, '*');
+    }
+
     const fullPath = window.location.pathname;
     let currentPath = fullPath.replace(BASE_PATH + "/", "");
 
@@ -400,5 +413,17 @@ window.addEventListener("DOMContentLoaded", () => {
         // Navegação normal
         const currentPath = window.location.pathname.replace(BASE_PATH, "");
         changeURL(currentPath);
+    }
+});
+
+window.addEventListener('message', (event) => { // Event listener que ouve eventos, problema era do iFrame não estar carregado e o listener não registrava, essa desgraça
+    if (event.data?.type === 'NAMASTREAM_READY') {
+        const iframe = document.getElementById('namastream-iframe');
+        if (iframe?.contentWindow) {
+            iframe.contentWindow.postMessage({
+                type: 'LANGUAGE_CHANGED',
+                language: currentLanguage
+            }, '*');
+        }
     }
 });
