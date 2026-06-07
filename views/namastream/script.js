@@ -1,7 +1,10 @@
 import translations from '/Portfolio/data/translations.json' with { type: 'json' };
 import { languageState } from '/Portfolio/javascript.js';
 
-const BACKEND_URL = 'https://namastream.migueloliv-dev.workers.dev';
+const lang = translations[languageState.current] || translations.en;
+const youtube = document.querySelector('#youtube .scroll-container');
+const agenda = document.querySelector('#agenda .scroll-container');
+const twitch = document.querySelector('#twitch .scroll-container');
 
 const images = [
     '/Portfolio/images/projects/namastream/namastream-1.jpg',
@@ -42,70 +45,58 @@ function goToImage(index) {
 
 // ========== STREAMS BAR ==========
 
-function filterStreams(videosResponse, twitchResponse) {
+function filterStreams(youtubeData, twitchStreams)
+{
     const ScheduledStreams = [];
     const HappeningStreams = [];
     const TwitchStreams = [];
 
-    for (const response of videosResponse) {
-        for (const video of response.items) {
-
-            if (!video.liveStreamingDetails) continue;
-
-            if (video.liveStreamingDetails.actualStartTime && !video.liveStreamingDetails.actualEndTime) {
-                HappeningStreams.push(video);
-            } else if (video.liveStreamingDetails.scheduledStartTime && !video.liveStreamingDetails.actualStartTime) {
-                ScheduledStreams.push(video);
-            }
+    for (const video of youtubeData) {
+        if (video.actualStartTime && !video.actualEndTime) {
+            HappeningStreams.push(video);
+        } else if (video.scheduledStartTime && !video.actualStartTime) {
+            ScheduledStreams.push(video);
         }
     }
 
     ScheduledStreams.sort((a, b) =>
-        new Date(a.liveStreamingDetails.scheduledStartTime) - new Date(b.liveStreamingDetails.scheduledStartTime)
+        new Date(a.scheduledStartTime) - new Date(b.scheduledStartTime)
     );
 
     HappeningStreams.sort((a, b) =>
-        new Date(a.liveStreamingDetails.actualStartTime) - new Date(b.liveStreamingDetails.actualStartTime)
+        new Date(a.actualStartTime) - new Date(b.actualStartTime)
     );
 
-    for (const response of twitchResponse.data) {
-        TwitchStreams.push(response);
+    for (const stream of twitchStreams) {
+        TwitchStreams.push(stream);
     }
 
-    return { ScheduledStreams, HappeningStreams, TwitchStreams };
+    return {ScheduledStreams, HappeningStreams, TwitchStreams};
 }
 
-function renderStreams(HappeningStreams, ScheduledStreams, TwitchStreams) {
-    const lang = translations[languageState.current] || translations.en;
-
-    const youtube = document.querySelector('#youtube .scroll-container');
-    const agenda = document.querySelector('#agenda .scroll-container');
-    const twitch = document.querySelector('#twitch .scroll-container');
-
-    if (!youtube || !agenda || !twitch) return;
-
-    let youtubeHTML = '';
-    let agendaHTML = '';
-    let twitchHTML = '';
+function renderStreams(HappeningStreams, ScheduledStreams, TwitchStreams) 
+{
+    let youtubeHTML = "";
+    let agendaHTML = "";
+    let twitchHTML = "";
 
     HappeningStreams.forEach(stream => {
         try {
-            const viewerCount = stream.liveStreamingDetails.concurrentViewers;
-            const watchingText = `${viewerCount} ${lang.watching_now}`;
-
             youtubeHTML += `
                 <div class="live">
-                    <a class="live-thumb" href="https://www.youtube.com/watch?v=${stream.id}" target="_blank">
-                        <img src="${stream.snippet.thumbnails.maxres?.url ?? stream.snippet.thumbnails.high.url}" alt="Stream">
+                    <a href="https://www.youtube.com/watch?v=${stream.id}" target="_blank" class="live-thumb">
+                        <img src="${stream.thumbnailMax ?? stream.thumbnailHigh} " alt="Channel Pfp">
                     </a>
                     <div class="live-info">
                         <div>
-                            <a target="_blank" class="streamtitle" href="https://www.youtube.com/watch?v=${stream.id}">${stream.snippet.title}</a>
-                            <a target="_blank" class="channelname" href="https://www.youtube.com/channel/${stream.snippet.channelId}">${stream.snippet.channelTitle}</a>
+                            <a target="_blank" class="streamtitle" href="https://www.youtube.com/watch?v=${stream.id}">${stream.title}</a>
                         </div>
-                        <div>${watchingText}</div>
+
+                        <a target="_blank" class="channelname" href="https://www.youtube.com/channel/${stream.channelId}"> ${stream.channel} </a>
+                        <div style="color: white">${stream.concurrentViewers} ${lang.watching_now} </div>
                     </div>
-                </div>`;
+                </div>`
+
         } catch (err) {
             console.log(err);
         }
@@ -113,36 +104,49 @@ function renderStreams(HappeningStreams, ScheduledStreams, TwitchStreams) {
 
     ScheduledStreams.forEach(stream => {
         try {
-            let displayText;
-            const currentTime = new Date();
-            const streamTime = new Date(stream.liveStreamingDetails.scheduledStartTime);
-            const timeLeftMS = streamTime - currentTime;
-            const timeLeftHours = Math.floor(timeLeftMS / (60 * 60 * 1000));
 
-            if (timeLeftHours >= 24) {
-                displayText = streamTime.toLocaleDateString(languageState.current);
-            } else if (timeLeftHours > 1) {
-                displayText = lang.in + timeLeftHours + lang.hours;
-            } else if (timeLeftHours === 1) {
-                displayText = lang.in + '1' + lang.hour;
-            } else {
-                const minutesLeft = Math.floor(timeLeftMS / (60 * 1000));
-                displayText = minutesLeft === 1 ? lang.in_1_minute : lang.in + minutesLeft + lang.minutes;
+            let displayText;
+            const localCurrentTime = new Date();
+
+            const localStreamHour = new Date(stream.scheduledStartTime);
+            const localStreamDate = localStreamHour.toLocaleDateString("pt-BR");
+
+            const localStreamTimeLeftMS = localStreamHour - localCurrentTime;
+
+            const localStreamTimeLeft = localStreamTimeLeftMS / (60 * 60 * 1000);
+            const localStreamHoursLeft = Math.floor(localStreamTimeLeft)
+
+            if (localStreamHoursLeft >= 24) {
+                displayText = localStreamDate;
+            } else if (localStreamHoursLeft > 1) {
+                displayText = lang.in + localStreamHoursLeft.toLocaleString() + lang.hours;
+            } else if (localStreamHoursLeft === 1){
+                displayText = lang.in + localStreamHoursLeft.toLocaleString() + lang.hour;
+            }else {
+                const localStreamMinutesLeft = Math.floor(localStreamTimeLeft * 60);
+                if (localStreamMinutesLeft === 1) {
+                    displayText = lang.in_1_minute;
+                } else {
+                    displayText = lang.in + localStreamMinutesLeft + lang.minutes;
+                }
             }
+
+            const localStreamStartTime = new Date(stream.scheduledStartTime).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
             agendaHTML += `
                 <div class="live">
-                    <a class="live-thumb" href="https://www.youtube.com/watch?v=${stream.id}" target="_blank">
-                        <img src="${stream.snippet.thumbnails.maxres?.url ?? stream.snippet.thumbnails.high.url}" alt="Stream">
+                    <a href="https://www.youtube.com/watch?v=${stream.id}" target="_blank" class="live-thumb">
+                        <img src="${stream.thumbnailMax ?? stream.thumbnailHigh}" alt="Channel Pfp">
                     </a>
                     <div class="live-info">
                         <div>
-                            <a target="_blank" class="streamtitle" href="https://www.youtube.com/watch?v=${stream.id}">${stream.snippet.title}</a>
-                            <a target="_blank" class="channelname" href="https://www.youtube.com/channel/${stream.snippet.channelId}">${stream.snippet.channelTitle}</a>
+                            <a target="_blank" class="streamtitle" href="https://www.youtube.com/watch?v=${stream.id}">${stream.title}</a>
                         </div>
-                        <div>${lang.starts} ${displayText}</div>
+
+                        <a target="_blank" class="channelname" href="https://www.youtube.com/channel/${stream.channelId}"> ${stream.channel} </a>
+                        <div style="color: white"> ${lang.starts} ${displayText} (${localStreamStartTime})</div>
                     </div>
-                </div>`;
+                </div>`
         } catch (err) {
             console.log(err);
         }
@@ -150,26 +154,24 @@ function renderStreams(HappeningStreams, ScheduledStreams, TwitchStreams) {
 
     TwitchStreams.forEach(stream => {
         try {
-            const viewerCount = stream.viewer_count;
-            const watchingText = `${viewerCount} ${lang.watching_now}`;
-
             twitchHTML += `
                 <div class="live">
-                    <a class="live-thumb" href="https://www.twitch.tv/${stream.user_name}" target="_blank">
-                        <img src="${stream.thumbnail_url.replace('{width}', '320').replace('{height}', '180')}" alt="Stream">
+                    <a href="https://www.twitch.tv/${stream.name}" target="_blank" class="live-thumb">
+                        <img src="${stream.thumbnail.replace("{width}", "320").replace("{height}", "180")}" alt="Channel Pfp">
                     </a>
                     <div class="live-info">
                         <div>
-                            <a target="_blank" class="streamtitle" href="https://www.twitch.tv/${stream.user_name}">${stream.title}</a>
-                            <a target="_blank" class="channelname" href="https://www.twitch.tv/${stream.user_name}">${stream.user_name}</a>
-                        </div>
-                        <div>${watchingText}</div>
+                            <a target="_blank" class="streamtitle" href="https://www.twitch.tv/${stream.name}">${stream.title}</a>
                     </div>
-                </div>`;
+
+                        <a target="_blank" class="channelname" href="https://www.twitch.tv/${stream.name}"> ${stream.name} </a>
+                        <div style="color: white">${stream.viewers} ${lang.watching_now} </div>
+                    </div>
+                </div>`
         } catch (err) {
             console.log(err);
         }
-    });
+    })
 
     youtube.innerHTML = youtubeHTML;
     agenda.innerHTML = agendaHTML;
@@ -210,8 +212,8 @@ function makeDraggable(bar) {
 
 async function loadStreams() {
     try {
-        const response = await fetch(`${BACKEND_URL}/v2/youtube`);
-        const twitchRes = await fetch(`${BACKEND_URL}/v2/twitch`);
+        const response = await fetch(`https://namastream.migueloliv-dev.workers.dev/v3/youtube`);
+        const twitchRes = await fetch(`https://namastream.migueloliv-dev.workers.dev/v3/twitch`);
 
         const videosResponse = await response.json();
         const twitchResponse = await twitchRes.json();
