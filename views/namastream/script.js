@@ -2,6 +2,11 @@ import translations from '/Portfolio/data/translations.json' with { type: 'json'
 import { languageState } from '/Portfolio/javascript.js';
 
 const lang = translations[languageState.current] || translations.en;
+
+let liveUniqueIframe = null;
+let timeoutId = null;
+let activeThumb = null;
+
 const youtube = document.querySelector('#youtube .scroll-container');
 const agenda = document.querySelector('#agenda .scroll-container');
 const twitch = document.querySelector('#twitch .scroll-container');
@@ -229,6 +234,61 @@ async function loadStreams() {
         console.error('Error loading streams:', err);
     }
 }
+
+[youtube, agenda, twitch].forEach(bar => {
+
+    bar.addEventListener("mouseover", (event) => {
+        const thumb = event.target.closest(".live-thumb");
+        if (!thumb) return;
+
+        if (activeThumb === thumb) return;
+        activeThumb = thumb;
+
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+            if (activeThumb !== thumb) return;
+
+            const videoLink = thumb.href;
+            if (!videoLink) return;
+
+            const url = new URL(videoLink);
+            const videoId = url.searchParams.get("v");
+            if (!videoId) return;
+
+            if (liveUniqueIframe) {
+                liveUniqueIframe.remove();
+                liveUniqueIframe = null;
+            }
+
+            const iframe = document.createElement("iframe");
+            iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1`;
+            liveUniqueIframe = iframe;
+
+            thumb.appendChild(iframe);
+        }, 3000);
+
+    }, true);
+
+    bar.addEventListener("mouseout", (event) => {
+        const thumb = event.target.closest(".live-thumb");
+        if (!thumb) return;
+
+        if (thumb.contains(event.relatedTarget)) return;
+
+        clearTimeout(timeoutId);
+
+        if (activeThumb === thumb) {
+            activeThumb = null;
+
+            if (liveUniqueIframe) {
+                liveUniqueIframe.remove();
+                liveUniqueIframe = null;
+            }
+        }
+    }, true);
+
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     updateImageViewer();
