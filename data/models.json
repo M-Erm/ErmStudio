@@ -1,6 +1,6 @@
 [
     {
-        "id": "model-01",
+        "id": "mococo",
         "name": "Mococo Abyssgard",
         "desc": "Unofficial",
         "type": "HoloParty",
@@ -10,7 +10,7 @@
     },
 
     {
-        "id": "model-02",
+        "id": "fuwawa",
         "name": "Fuwawa Abyssgard",
         "desc": "Unofficial",
         "type": "HoloParty",
@@ -30,7 +30,7 @@
     },
 
     {
-        "id": "model-04",
+        "id": "Evil",
         "name": "Evil Neuro",
         "desc": "Unofficial",
         "type": "Miscellaneous",

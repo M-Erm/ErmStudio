@@ -88,8 +88,8 @@ function changePage(path)
 
     const websitePages = {
         "": "homepage",
-        games: id ? "game-view" : "games",
-        softwares: id ? "software-view" : "softwares",
+        games: id ? "custom-view" : "games",
+        softwares: id ? "custom-view" : "softwares",
         models: id ? "model-view" : "models",
         contact: "contact",
         animations: "animations"
@@ -105,7 +105,7 @@ function changePage(path)
     });
 
     // Limpa as páginas de detalhes
-    ["game-view", "software-view", "model-view"].forEach(id =>
+    ["game-view", "custom-view", "model-view"].forEach(id =>
     {
         const element = document.getElementById(id);
         if (element) element.innerHTML = "";
@@ -133,7 +133,6 @@ function changePage(path)
         case "softwares":
             if (id)
             {
-                console.log(id);
                 if (id == "namastream")
                 {
                     loadCustomView(id);
@@ -254,22 +253,21 @@ function loadModelsGrid()
 
 function loadCustomView(id)
 {
-    const softwareView = document.getElementById("software-view");
-    softwareView.innerHTML = `<iframe id="${id}-iframe" src="${BASE_PATH}/views/${id}/index.html" style="width: 100%; height: 100vh;"></iframe>`;
+    const customView = document.getElementById("custom-view");
+    customView.innerHTML = `<iframe id="${id}-iframe" src="${BASE_PATH}/views/${id}/index.html" style="width: 100%; height: 100vh;"></iframe>`;
 }
 
 function loadSoftwareDetails(id)
 {
-    console.log("Carregando view de Software");
-    const softwareInfo = document.getElementById("software-view");
+    const customView = document.getElementById("custom-view");
     const software = softwaresData.find((software) => software.id === id);
 
     if (!software)
     {
-        softwareInfo.innerHTML = "<p> Projeto não existe ? </p>";
+        customView.innerHTML = "<p> Projeto não existe ? </p>";
         return;
     }
-
+    
     const software_view = `
         <div id="software-view-container">
             <div id="software-panel">
@@ -295,7 +293,7 @@ function loadSoftwareDetails(id)
         </div>
     ` ;
 
-    softwareInfo.innerHTML = software_view;
+    customView.innerHTML = software_view;
 }
 
 function loadModelDetails(id)
@@ -304,21 +302,22 @@ function loadModelDetails(id)
 
     const model = modelsData.find((model) => model.id === id)
 
-    if (!model)
-        return;
+    if (!model) return;
+
+    console.log(model.images.images[0]);
 
     const model_view = `
         <div id="model-view-container">
             <div id="twod-view">
                 <section id="model-images">
-                    <img src="${model.images.posed}" onclick="ChangeDisplayImage('${model.images.posed}')" alt="${model.name} Preview">
-                    <img src="${model.images.img1}" onclick="ChangeDisplayImage('${model.images.img1}')" alt="${model.name} Preview">
-                    <img src="${model.images.img2}" onclick="ChangeDisplayImage('${model.images.img2}')" alt="${model.name} Preview">
-                    <img src="${model.images.img3}" onclick="ChangeDisplayImage('${model.images.img3}')" alt="${model.name} Preview">
-                    <img src="${model.images.img4}" onclick="ChangeDisplayImage('${model.images.img4}')" alt="${model.name} Preview">
+                    <img src="${model.images.card}" onclick="changeDisplayImage('${model.images.posed}')" alt="${model.name} Preview">
+                    <img src="${model.images.images[0]}" onclick="changeDisplayImage('${model.images.images[0]}')" alt="${model.name} Preview">
+                    <img src="${model.images.images[1]}" onclick="changeDisplayImage('${model.images.images[1]}')" alt="${model.name} Preview">
+                    <img src="${model.images.images[2]}" onclick="changeDisplayImage('${model.images.images[2]}')" alt="${model.name} Preview">
+                    <img src="${model.images.images[3]}" onclick="changeDisplayImage('${model.images.images[3]}')" alt="${model.name} Preview">
                 </section>
                 <div id="twod-model">
-                    <img id="display-image" src="${model.images.posed}" alt="${model.name} Preview">
+                    <img id="display-image" src="${model.images.card}" alt="${model.name} Preview">
                     <button class="view-3d-model" onclick="toggle3D()">3D</button>
                 </div>
             </div>
@@ -338,7 +337,6 @@ function loadModelDetails(id)
             <section id="model-info">
                 <div class="model-info-name">${model.name}</div>
                 <div class="model-info-desc">${model.desc}</div>
-                <div class="model-info-about">${model.about}</div>
                 <a href="${model.sketchfab}" class="sketchfab"> SketchFab </a>
             </section>
         </div>
@@ -442,7 +440,7 @@ window.loadCustomView = loadCustomView;
 window.addEventListener("DOMContentLoaded", () => {
     const redirectPath = sessionStorage.getItem('redirectPath');
     
-    if (redirectPath) {9
+    if (redirectPath) {
         sessionStorage.removeItem('redirectPath'); // Limpa pra poder cliar um novo na próxima vez
         const fallbackPath = redirectPath.replace(BASE_PATH, "");
         changeURL(fallbackPath);
