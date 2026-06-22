@@ -31,9 +31,9 @@
 
     {
         "id": "model-04",
-        "name": "",
+        "name": "Evil Neuro",
         "desc": "Unofficial",
-        "type": "HoloParty",
+        "type": "Miscellaneous",
         "imagesCount": "4",
         "model": "",
         "sketchfab": ""

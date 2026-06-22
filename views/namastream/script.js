@@ -1,5 +1,5 @@
-import translations from '/Portfolio/data/translations.json' with { type: 'json' };
-import { languageState } from '/Portfolio/javascript.js';
+import translations from '/ErmStudio/data/translations.json' with { type: 'json' };
+import { languageState } from '/ErmStudio/javascript.js';
 
 const lang = translations[languageState.current] || translations.en;
 
@@ -12,9 +12,9 @@ const agenda = document.querySelector('#agenda .scroll-container');
 const twitch = document.querySelector('#twitch .scroll-container');
 
 const images = [
-    '/Portfolio/images/projects/namastream/namastream-1.jpg',
-    '/Portfolio/images/projects/namastream/namastream-2.jpg',
-    '/Portfolio/images/projects/namastream/namastream-3.jpg'
+    '/ErmStudio/images/softwares/namastream/namastream-1.jpg',
+    '/ErmStudio/images/softwares/namastream/namastream-2.jpg',
+    '/ErmStudio/images/softwares/namastream/namastream-3.jpg'
 ];
 
 let currentImageIndex = 0;

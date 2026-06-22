@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
-  <link rel="icon" href="/Portfolio/images/favicon.ico">
-  <link rel="stylesheet" href="/Portfolio/style.css">
+  <title>ErmStudio</title>
+  <link rel="icon" href="/ErmStudio/images/favicon.ico">
+  <link rel="stylesheet" href="/ErmStudio/style.css">
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-  <script type="module" src="/Portfolio/javascript.js" defer></script>
+  <script type="module" src="/ErmStudio/javascript.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -15,15 +18,16 @@
         <a href="" class="logo" data-route><h1>Erm</h1></a>
         <div class =header-container>
           <nav class="header-bar">
+            <a href="games" class="headerbar-element" data-route data-i18n="games">GAMES</a>
+            <a href="softwares" class="headerbar-element" data-route >SOFTWARE</a>
             <a href="models" class="headerbar-element" data-route data-i18n="models">MODELS</a>
-            <a href="projects" class="headerbar-element" data-route data-i18n="projects">PROJECTS</a>
             <a href="animations" class="headerbar-element" data-route data-i18n="animations">ANIMATIONS</a>
             <a href="contact" class="headerbar-element" data-route data-i18n="contact">CONTACT</a>
           </nav>
 
           <nav class="lesser-header-bar">
-            <button onclick="ChangeLanguage('en')" class="headerbar-element">EN</button>
-            <button onclick="ChangeLanguage('pt-br')" class="headerbar-element">PT-BR</button>
+            <button onclick="changeLanguage('en')" class="headerbar-element">EN</button>
+            <button onclick="changeLanguage('pt-br')" class="headerbar-element">PT-BR</button>
           </nav>
         </div>
   </header>
@@ -37,7 +41,7 @@
           <video autoplay="" 
             loop=""
             id="bgvid">
-            <source src="/Portfolio/hero.mp4"
+            <source src="/ErmStudio/hero.mp4"
             type="video/mp4">
           </video>
         </div>
@@ -47,19 +51,38 @@
 
       <div class="contrast-text" data-i18n="featured_projects"> FEATURED PROJECTS </div>
 
-        <div class="elements-grid">
-          <a href="projects/namastream" data-route class="featured-projects"> <img src="/Portfolio/images/projects/namastream/namastream-card.jpg" alt="Image Preview"></a>
-          <a href="projects/bootstrapper" class="featured-projects"><img src="/Portfolio/images/projects/bootstrapper/bootstrapper-card.jpg" alt="Image Preview"></a>
-        </div>
+      <div class="featured-projects">
+
+        <article class="featured-project-card">
+          <a href="games/holoparty" data-route>
+            <img src="/ErmStudio/images/games/holoparty/holoparty-card.jpg" alt="Print Tela HoloParty">
+
+            <div class="featured-project-info">
+              <h3>HoloParty</h3>
+            </div>
+          </a>
+        </article>
+
+        <article class="featured-project-card">
+          <a href="games/holoparty" data-route>
+            <img src="/ErmStudio/images/games/holoparty/holoparty-card.jpg" alt="Print Tela HoloParty">
+
+            <div class="featured-project-info">
+              <h3>HoloParty</h3>
+            </div>
+          </a>
+        </article>
+
+      </div>
 
       <div class="section-divider"></div>
 
       <div class="contrast-text" data-i18n="featured_animations"> FEATURED ANIMATIONS </div>
 
-      <div class="elements-grid">
-        <div class="animation"></div>
-        <div class="animation"></div>
-        <div class="animation"></div>
+      <div class="animations-grid">
+        <div class="animation"> <h1> Animation Name </h1> </div>
+        <div class="animation"> <h1> Animation Name </h1> </div>
+        <div class="animation"> <h1> Animation Name </h1> </div>
       </div>
 
       <div class="section-divider"></div>
@@ -75,26 +98,40 @@
 
     </section>
 
-    <!-- Projetos -->
-    <section id="projects" class="page-hidden">
+    <!-- GAMES -->
+    <section id="games" class="page-hidden">
 
       <section class="top">
         <div class="top-display">
-          <video autoplay=""
-            muted="" 
-            loop="" 
-            playsinline="" 
-            id="bgvid">
-            <source src="" 
-            type="video/webm">
+          <video autoplay muted loop playsinline>
+            <source src="" type="video/webm">
           </video>
         </div>
       </section>
 
-      <section id="projects-games" class="project-section"> <div class="section-project-name-bar"> <h1 data-i18n="games"> Games </h1> </div> <div class="projects-grid"></div> </section>
-      <section id="projects-modding" class="project-section"> <div class="section-project-name-bar"> <h1 data-i18n="gamemodding"> Game Modding </h1> </div> <div class="projects-grid"></div> </section>
-      <section id="projects-misc" class="project-section"> <div class="section-project-name-bar"> <h1 data-i18n="miscellaneous"> Miscellaneous </h1> </div> <div class="projects-grid"></div> </section>
-      <section id="projects-college" class="project-section"> <div class="section-project-name-bar"> <h1 data-i18n="college"> College Projects </h1> </div> <div class="projects-grid"></div> </section>
+      <div class="games-showcase">
+        <div class="games-header">
+          <h2 data-i18n="games">GAMES</h2>
+        </div>
+        <div id="games-grid" class="games-grid"></div>
+      </div>
+
+      <div class="mods-showcase">
+        <div class="mods-header">
+          <h2 data-i18n="gamemodding">Game Modding</h2>
+        </div>
+        <div id="mods-grid" class="mods-grid"></div>
+      </div>
+
+    </section>
+
+    <!-- SOFTWARE -->
+    <section id="softwares" class="page-hidden">
+
+      <div class="softwares-showcase">
+        <div id="softwares-grid" class="softwares-grid"></div>
+      </div>
+
     </section>
 
     <!-- Models -->
@@ -121,15 +158,15 @@
             The models are created for use in HoloParty, an independent fan-made game project.<br>
             This projects are not an official Hololive product.<br></h1>
         </div>
-        
       </section>
 
+      <section id="models-tbd"> <div class="model-section-title" data-i18n="tbd"> ???? </div> <ul class="models-grid"></ul> </section>
       <section id="models-misc"> <div class="model-section-title" data-i18n="miscellaneous"> Miscellaneous </div> <ul class="models-grid"></ul> </section>
 
     </section>
 
-    <!-- Projeto específico -->
-    <section id="project-view" class="page-hidden"> </section>
+    <!-- Software específico -->
+    <section id="software-view" class="page-hidden"> </section>
 
     <!-- Model específico -->
     <section id="model-view" class="page-hidden"> </section>
@@ -152,21 +189,21 @@
 
       <div class="contrast-text" style="color: white;" data-i18n="video_animations"> VIDEO ANIMATIONS </div>
 
-        <div class="elements-grid">
-          <div class="animation"></div>
-          <div class="animation"></div>
-          <div class="animation"></div>
-        </div>
+      <div class="animations-grid">
+        <div class="animation"> <h1 style="color: white;"> Animation Name </h1> </div>
+        <div class="animation"> <h1 style="color: white;"> Animation Name </h1> </div>
+        <div class="animation"> <h1 style="color: white;"> Animation Name </h1> </div>
+      </div>
 
-        <div class="section-divider"></div>
+      <div class="section-divider"></div>
 
-        <div class="contrast-text" style="color: white;" data-i18n="holoparty_animations"> HOLOPARTY ANIMATIONS</div>
+      <div class="contrast-text" style="color: white;" data-i18n="holoparty_animations"> HOLOPARTY ANIMATIONS</div>
 
-          <div class="elements-grid">
-            <div class="animation"></div>
-            <div class="animation"></div>
-            <div class="animation"></div>
-          </div>
+      <div class="animations-grid">
+        <div class="animation"> <h1 style="color: white;"> Animation Name </h1> </div>
+        <div class="animation"> <h1 style="color: white;"> Animation Name </h1> </div>
+        <div class="animation"> <h1 style="color: white;"> Animation Name </h1> </div>
+      </div>
 
     </section>
 
@@ -178,8 +215,8 @@
         <h1 data-i18n="whoami"> Who Am I? </h1>
 
         <div class="about-info"> 
-          <img src="/Portfolio/images/profile-pic.png" alt="Profile picture" id="profile-pic">
-          <p data-i18n="about_me"> I am a Software Engineer who likes Game Development, 3D Modeling and Animation. I like developing projects, understanding how things happen and the different ways to create something </p>
+          <img src="/ErmStudio/images/profile-pic.png" alt="Profile picture" id="profile-pic">
+          <p data-i18n="about_me"> I am a Software Engineering Student focused on building games, tools and interactive experiences. </p>
         </div>
       </section>
       

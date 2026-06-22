@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        const originalPath = location.pathname + location.search + location.hash; // Salva rota original
+        const originalPath = location.pathname + location.search + location.hash; // Salva rota original. O 404.html não troca o pathname, então resulta no valor certo
         sessionStorage.setItem('redirectPath', originalPath);
         
         const repoName = location.pathname.split('/').filter(Boolean)[0];

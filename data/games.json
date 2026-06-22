@@ -1,0 +1,19 @@
+[
+    {
+        "id": "holoparty",
+        "name": "HoloParty",
+        "desc": "HoloParty is A Co-op Multiplayer Unofficial Hololive game with fun minigames!",
+        "status": "In Development",
+        "stack": "Unity, Blender, C#",
+        "imagesCount": "4"
+    },
+
+    {
+        "id": "game2",
+        "name": "????????",
+        "desc": "TBA",
+        "status": "In Development",
+        "stack": "Unity, Blender, C#",
+        "imagesCount": "4"
+    }
+]

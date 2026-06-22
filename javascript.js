@@ -4,14 +4,16 @@
 //
 
 import translations from './data/translations.json' with { type: 'json' };
+import games from './data/games.json' with { type: 'json' };
+import mods from './data/mods.json' with { type: 'json' };
+import softwares from './data/softwares.json' with { type: 'json' };
 import models from './data/models.json' with { type: 'json' };
-import projects from './data/projects.json' with { type: 'json' };
 import animationsData from './data/animations.json' with { type: 'json' };
 
 export const languageState = { current: "en" };
 export let currentLanguage = languageState.current;
 
-const getBasePath = () => {
+const getBasePath = () => { // Assim nunca quebra remotamente mesmo que eu troque o nome do repo
     const hostname = window.location.hostname;
     
     if (hostname.includes('github.io')) {
@@ -20,47 +22,44 @@ const getBasePath = () => {
         return `/${repoName}`;
     }
     
-    return "/Portfolio";
+    return "/ErmStudio";
 };
 
-
-const BASE_PATH = getBasePath(); // Esperado: Local: "/Portfolio", Remoto: "/NomeDoRepo"
-
+const BASE_PATH = getBasePath();
 const pages = document.querySelectorAll("main > section");
-const main_page = document.getElementById('homepage');
 
-const projectsData = projects.map(project => ({
-    ...project,
-    images: buildImages(
-        "projects",
-        project.id,
-        project.imagesCount
-    )
-}));
+const gamesData = buildData(games, "games");
+const modsData = buildData(mods, "mods");
+const softwaresData = buildData(softwares, "softwares");
+const modelsData = buildData(models, "models");
 
-const modelsData = models.map(model => ({
-    ...model,
-    images: buildImages(
-        "Models",
-        model.id,
-        model.imagesCount
-    )
-}));
+function buildData(data, type)
+{
+    return data.map(item => ({
+        ...item, // Copia o objeto inteiro
+        images: buildImages(type, item.id, item.imagesCount)
+    }));
+}
 
-function buildImages(type, id, imageCount) {
-  return {
-    card: `${BASE_PATH}/images/${type}/${id}/${id}-card.jpg`,
-    gallery: Array.from(
-      { length: imageCount },
-      (_, i) => `${BASE_PATH}/images/${type}/${id}/${id}-${i + 1}.jpg`
-    )
-  };
+function buildImages(type, id, imageCount) 
+{
+    const imagePath = `${BASE_PATH}/images/${type}/${id}/${id}`;
+    const card = `${imagePath}-card.jpg`;
+  
+    const images = [];
+
+    for (let i = 1; i <= imageCount; i++)
+    {
+        images.push(`${imagePath}-${i}.jpg`);
+    }
+
+    return { card, images };
 }
 
 function changeURL(path)
 {
-    path = path || ""; // Faz isso pra evitar que path seja null e não seja string, quebraria tudo
-    path = path.replace(/^\/+/, ""); // Remove barra inicial pro split funcionar
+    path = path || ""; // Evita que path não seja string
+    path = path.replace(/^\/+/, ""); // Remove a primeira barra
 
     const parts = path.split("/");
 
@@ -81,106 +80,143 @@ function changeURL(path)
     changePage(path);
 }
 
-function changePage(path) 
+function changePage(path)
 {
-    let pageId = "homepage";
-    
-    const pathparts = path.split("/"); 
+    const pathparts = path.split("/");
     const base = pathparts[0] || "";
     const id = pathparts[1] || null;
 
-    if (base ==="")  // Dá valor ao pageId de acordo com o valor recebido. Útil para ativar página
-        pageId = "homepage";
-    else if (base ==="projects")
-        pageId = id ? "project-view" : "projects"; 
-    else if (base ==="models")
-        pageId = id ? "model-view" : "models";
-    else if (base ==="contact")
-        pageId = "contact";
-    else if (base ==="animations")
-        pageId = "animations";
+    const websitePages = {
+        "": "homepage",
+        games: id ? "game-view" : "games",
+        softwares: id ? "software-view" : "softwares",
+        models: id ? "model-view" : "models",
+        contact: "contact",
+        animations: "animations"
+    };
 
+    const pageId = websitePages[base] ?? "homepage";
+
+    // Esconde todas as páginas
     pages.forEach(page =>
     {
-        page.classList.remove('page-active');
-        page.classList.add('page-hidden');
+        page.classList.remove("page-active");
+        page.classList.add("page-hidden");
     });
 
-    const el = document.getElementById("project-view"); // Limpa pages dinamicas toda troca de página, mais para otimização
-    if (el)
-        el.innerHTML = "";
-    
-    const el2 = document.getElementById("model-view");
-    if (el2)
-        el2.innerHTML = "";
-
-    const newPage = document.getElementById(pageId);
-
-    if (newPage)
+    // Limpa as páginas de detalhes
+    ["game-view", "software-view", "model-view"].forEach(id =>
     {
-        newPage.classList.remove('page-hidden');
-        newPage.classList.add('page-active');
+        const element = document.getElementById(id);
+        if (element) element.innerHTML = "";
+    });
+
+    // Mostra a página correta
+    const page = document.getElementById(pageId);
+    if (page)
+    {
+        page.classList.remove("page-hidden");
+        page.classList.add("page-active");
     }
 
-    if (base === "projects")
+    // Carrega conteúdo
+    switch (base)
     {
-        if (id)
-        {
-            if (id.toLowerCase() === "namastream")
-                LoadNamaStreamView();
+        case "games":
+            if (id)
+                loadCustomView(id);
+            else {
+                loadGamesGrid();
+                loadModsGrid();
+            }
+            break;     
+        case "softwares":
+            if (id)
+            {
+                console.log(id);
+                if (id == "namastream")
+                {
+                    loadCustomView(id);
+                }
+                else {
+                    loadSoftwareDetails(id);
+                }
+            }
             else
-                Load_Details_Project(id);
-        }
-        else
-            Load_Projects();
-    }
-    if (base === "models")
-    {
-        if (id)
-            Load_Details_Models(id);
-        else
-            Load_Models();
+            {
+                loadSoftwaresGrid();
+            }
+            break;
+
+        case "models":
+            if (id)
+                loadModelDetails(id);
+            else
+                loadModelsGrid();
+            break;
     }
 }
 
-function Load_Projects()
+function loadGamesGrid()
 {
-    const projects =
-    {
-        Game: document.querySelector('#projects-games .projects-grid'),
-        Modding: document.querySelector('#projects-modding .projects-grid'),
-        Miscellaneous: document.querySelector('#projects-misc .projects-grid'),
-        College: document.querySelector('#projects-college .projects-grid')
-    }
+    const grid = document.getElementById("games-grid");
+    grid.innerHTML = "";
 
-    const cards = document.querySelectorAll(".card-project");
+    gamesData.forEach(element => {
+        const card = `
+        <a href="games/${element.id}" class="card-game" data-route>
+            <img src="${element.images.card}" alt="${element.name} Preview">
+            <div class="card-game-info">
+                <h3 class="game-title">${element.name}</h3>
+                <span class="game-status">${element.status}</span>
+            </div>
+        </a>`
 
-    cards.forEach(card => 
-    {
-        card.remove();
-    });
-
-    function createProjectCard(project) {
-        return `
-            <a href="projects/${project.id}" class="card-project" data-route>
-                <img src="${project.images.card}" alt="${project.name} Preview">
-                <h3>${project.name} </h3>
-            </a>
-        `;
-    }
-
-    Object.keys(projects).forEach(type => {  // Object.keys pega as Chaves (game, modding, etc)
-        const filteredProjects = projectsData.filter(project => project.type === type.toLowerCase()); // Compara o valor da CHAVE de um array com o param 
-
-        filteredProjects.forEach(project => {
-            projects[type].innerHTML += createProjectCard(project);
-        });
+        grid.innerHTML += card;
     });
 }
 
-function Load_Models()
+function loadModsGrid()
 {
-    const models = //Array
+    const grid = document.getElementById("mods-grid");
+    grid.innerHTML = "";
+
+    modsData.forEach(element => {
+        const card = `
+        <a href="games/${element.id}" class="card-game" data-route>
+            <img src="${element.images.card}" alt="${element.name} Preview">
+            <div class="card-game-overlay">
+            <span class="game-status">${element.status}</span>
+            <h3 class="game-title">${element.name}</h3>
+            </div>
+        </a>`
+
+        grid.innerHTML += card;
+    });
+}
+
+function loadSoftwaresGrid()
+{
+    const grid = document.getElementById("softwares-grid");
+    grid.innerHTML = "";
+
+    softwaresData.forEach(element => {
+        const card = `
+        <a href="softwares/${element.id}" class="card-software" data-route>
+            <img src="${element.images.card}" alt="${element.name} Preview">
+            <div class="card-software-overlay">
+                <span class="game-status">${element.status}</span>
+                <h3 class="game-title">${element.name}</h3>
+            </div>
+        </a>`
+
+        grid.innerHTML += card;
+    });
+}
+
+function loadModelsGrid()
+{
+    const modelGrids = // Objeto
     {
         HoloParty: document.querySelector('#models-holoparty .models-grid'),
         Miscellaneous: document.querySelector("#models-misc .models-grid")
@@ -207,56 +243,62 @@ function Load_Models()
         `;
     }
 
-    Object.keys(models).forEach(type => {
-        const filteredModels = modelsData.filter(model => model.type.toLowerCase() === type.toLowerCase());
+    Object.keys(modelGrids).forEach(grid => {
+        const filteredModels = modelsData.filter(model => model.type.toLowerCase() === grid.toLowerCase());
 
         filteredModels.forEach(model => {
-            models[type].innerHTML += createModelCard(model);
+            modelGrids[grid].innerHTML += createModelCard(model);
         });
     });
 }
 
-function Load_Details_Project(id)
+function loadCustomView(id)
 {
-    const projectInfo = document.getElementById("project-view");
+    const softwareView = document.getElementById("software-view");
+    softwareView.innerHTML = `<iframe id="${id}-iframe" src="${BASE_PATH}/views/${id}/index.html" style="width: 100%; height: 100vh;"></iframe>`;
+}
 
-    const project = projectsData.find((project) => project.id === id);
+function loadSoftwareDetails(id)
+{
+    console.log("Carregando view de Software");
+    const softwareInfo = document.getElementById("software-view");
+    const software = softwaresData.find((software) => software.id === id);
 
-    if (!project)
+    if (!software)
     {
-        projectInfo.innerHTML = "<p>Projeto não existe?</p>";
+        softwareInfo.innerHTML = "<p> Projeto não existe ? </p>";
         return;
     }
 
-    const project_view = `
-        <div id="project-view-container">
-            <div id="project-panel">
-                <section id="project-info">
-                    <div>Stats: ${project.status} </div>
-                    <div id="desc"> ${project.desc} </div>
-                    <div id="techs"> Techs: ${project.stack} </div>
-                    <a href="${project.link}" id="github"><h1>Github</h1></a>
+    const software_view = `
+        <div id="software-view-container">
+            <div id="software-panel">
+                <section id="software-info">
+                    <div>Stats: ${software.status} </div>
+                    <div id="desc"> ${software.desc} </div>
+                    <div id="techs"> Stack: ${software.stack} </div>
+                    <a href="${software.link}" id="github"><h1>Github</h1></a>
                 </section>
-                <section id="right-project-info">
-                    <div class="project-title"> ${project.name} </div>
-                    <div id="project-image-display"> <img id="image-display" src="${project.images.card}" alt="${project.name} Preview"> </div>
-                    <section id="project-images">
-                        <img src="${project.images.card}" onclick="ChangeProjectImage('${project.images.card}')" alt="${project.name} Preview">
-                        <img src="${project.images.gallery[0]}" onclick="ChangeProjectImage('${project.images.gallery[0]}')" alt="${project.name} Preview">
-                        <img src="${project.images.gallery[1]}" onclick="ChangeProjectImage('${project.images.gallery[1]}')" alt="${project.name} Preview">
-                        <img src="${project.images.gallery[2]}" onclick="ChangeProjectImage('${project.images.gallery[2]}')" alt="${project.name} Preview">
-                        <img src="${project.images.gallery[3]}" onclick="ChangeProjectImage('${project.images.gallery[3]}')" alt="${project.name} Preview">
-                        <img src="${project.images.gallery[4]}" onclick="ChangeProjectImage('${project.images.gallery[4]}')" alt="${project.name} Preview">
+                <section id="right-software-info">
+                    <div class="software-title"> ${software.name} </div>
+                    <div id="software-image-display"> <img id="image-display" src="${software.images.card}" alt="${software.name} Preview"> </div>
+                    <section id="software-images">
+                        <img src="${software.images.card}" onclick="changeProjectImage('${software.images.card}')" alt="${software.name} Preview">
+                        <img src="${software.images.images[0]}" onclick="changeProjectImage('${software.images.images[0]}')" alt="${software.name} Preview">
+                        <img src="${software.images.images[1]}" onclick="changeProjectImage('${software.images.images[1]}')" alt="${software.name} Preview">
+                        <img src="${software.images.images[2]}" onclick="changeProjectImage('${software.images.images[2]}')" alt="${software.name} Preview">
+                        <img src="${software.images.images[3]}" onclick="changeProjectImage('${software.images.images[3]}')" alt="${software.name} Preview">
+                        <img src="${software.images.images[4]}" onclick="changeProjectImage('${software.images.images[4]}')" alt="${software.name} Preview">
                     </section>
                 </section>
             </div>
         </div>
     ` ;
 
-    projectInfo.innerHTML = project_view;
+    softwareInfo.innerHTML = software_view;
 }
 
-function Load_Details_Models(id)
+function loadModelDetails(id)
 {
     const modelInfo = document.getElementById("model-view");
 
@@ -277,12 +319,12 @@ function Load_Details_Models(id)
                 </section>
                 <div id="twod-model">
                     <img id="display-image" src="${model.images.posed}" alt="${model.name} Preview">
-                    <button class="view-3d-model" onclick="Toggle3D()">3D</button>
+                    <button class="view-3d-model" onclick="toggle3D()">3D</button>
                 </div>
             </div>
 
             <div id="threed-view" style="display: none;">
-            <button class="view-3d-model" onclick="Toggle2D()">2D</button>
+            <button class="view-3d-model" onclick="toggle2D()">2D</button>
                 <model-viewer
                     src="${model.model3d}"
                     alt="${model.name} 3D Model"
@@ -312,37 +354,31 @@ function Load_Details_Models(id)
     modelInfo.innerHTML = model_view;
 }
 
-function ChangeProjectImage(newImage)
+function changeProjectImage(newImage)
 {
     const displayImage = document.getElementById("image-display");
     displayImage.src = newImage;
 }
 
-function ChangeDisplayImage(newimage)
+function changeDisplayImage(newimage)
 {
     const displayImage = document.getElementById("display-image");
     displayImage.src = newimage;
 }
 
-function Toggle3D()
+function toggle3D()
 {
     document.getElementById("twod-view").style.display = "none";
     document.getElementById("threed-view").style.display = "block";
 }
 
-function Toggle2D()
+function toggle2D()
 {
     document.getElementById("twod-view").style.display = "flex";
     document.getElementById("threed-view").style.display = "none";
 }
 
-function LoadNamaStreamView()
-{
-    const projectView = document.getElementById("project-view");
-    projectView.innerHTML = `<iframe id="namastream-iframe" src="${BASE_PATH}/views/namastream/index.html" style="width: 100%; height: 100vh;"></iframe>`;
-}
-
-function ChangeLanguage(targetLanguage)
+function changeLanguageURL(targetLanguage)
 {
     languageState.current = targetLanguage;
     currentLanguage = targetLanguage;
@@ -363,10 +399,10 @@ function ChangeLanguage(targetLanguage)
     const currentPathWithLang = targetLanguage + "/" + currentPath;
 
     changeURL(currentPathWithLang);
-    ChangeLanguageHTML();
+    changeLanguageHTML();
 }
 
-function ChangeLanguageHTML() 
+function changeLanguageHTML() 
 {
     const words = document.querySelectorAll("[data-i18n]"); 
     words.forEach(word =>
@@ -381,7 +417,7 @@ function ChangeLanguageHTML()
 
 document.addEventListener("click", (click) =>
 {
-    const link = click.target.closest("a[data-route]"); // Exemplo de retorno: <a href="projects/project-01" data-route>Project 01</a>
+    const link = click.target.closest("a[data-route]"); // Exemplo de retorno: <a href="softwares/software-01" data-route>Project 01</a>
     if (!link) return;
 
     click.preventDefault();
@@ -395,20 +431,21 @@ window.addEventListener("popstate", () =>
     changeURL(window.location.pathname.replace(BASE_PATH, "")); // Pega o path da URL atual, remove a primeira parte e chama changeURL
 });
 
-window.ChangeLanguage = ChangeLanguage;
-window.ChangeDisplayImage = ChangeDisplayImage;
-window.ChangeProjectImage = ChangeProjectImage;
-window.Toggle3D = Toggle3D;
-window.Toggle2D = Toggle2D;
-window.LoadNamaStreamView = LoadNamaStreamView;
+// Sem isso as funções não funcionam no HTML
+window.changeLanguage = changeLanguageURL;
+window.changeDisplayImage = changeDisplayImage;
+window.changeProjectImage = changeProjectImage;
+window.toggle3D = toggle3D;
+window.toggle2D = toggle2D;
+window.loadCustomView = loadCustomView;
 
 window.addEventListener("DOMContentLoaded", () => {
     const redirectPath = sessionStorage.getItem('redirectPath');
     
-    if (redirectPath) {
-        sessionStorage.removeItem('redirectPath'); // Limpa pra não ficar em loop
-        const cleanPath = redirectPath.replace(BASE_PATH, "");
-        changeURL(cleanPath);
+    if (redirectPath) {9
+        sessionStorage.removeItem('redirectPath'); // Limpa pra poder cliar um novo na próxima vez
+        const fallbackPath = redirectPath.replace(BASE_PATH, "");
+        changeURL(fallbackPath);
     } else {
         // Navegação normal
         const currentPath = window.location.pathname.replace(BASE_PATH, "");
@@ -416,7 +453,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-window.addEventListener('message', (event) => { // Event listener que ouve eventos, problema era do iFrame não estar carregado e o listener não registrava, essa desgraça
+window.addEventListener('message', (event) => { // Event listener pro youtube hover do iframe do namastream
     if (event.data?.type === 'NAMASTREAM_READY') {
         const iframe = document.getElementById('namastream-iframe');
         if (iframe?.contentWindow) {

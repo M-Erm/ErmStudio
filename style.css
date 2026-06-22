@@ -1,6 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
 html{
     height: 100%;
     overflow-y: scroll;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -12,10 +20,21 @@ body {
     background-color: #fff;
     height: 100%;
 }
+
 main {
     display: block;
     overflow: hidden;
 }
+
+.page-hidden {
+    display: none;
+}
+
+.page-active {
+    display: block;
+}
+
+/* #region Header */
 
 .logo {
     position: fixed;
@@ -78,6 +97,10 @@ main {
     pointer-events: auto !important;
 }
 
+/* #endregion */
+
+/* #region Homepage */
+
 .section-divider {
     display: flex;
     width: 80vw;
@@ -130,8 +153,7 @@ video#bgvid {
     padding: 20px 100px;
 }
 
-
-.elements-grid {
+.animations-grid {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -141,18 +163,39 @@ video#bgvid {
     padding: 0px 100px;
 }
 
-
-.featured-projects { 
-    background-color: gray;
-    aspect-ratio: 2 / 1.1;
-    border-radius: 8px;
+.featured-projects {
+    display: grid;
+    grid-template-columns: repeat(2, 620px);
+    justify-content: center;
+    gap: 32px;
     height: 400px;
-    overflow: hidden;
 }
 
-.featured-projects img {
+.featured-project-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.featured-project-card a {
+    display: block;
+    text-decoration: none;
     width: 100%;
     height: 100%;
+}
+
+.featured-project-card img {
+    width: 100%;
+    height: 70%;
+    object-fit: contain;
+}
+
+.featured-project-info {
+    margin-top: 1%;
+    color: black;
+    text-align: center;
+    font-size: 1.25rem;
+
 }
 
 #video-displayer-container {
@@ -169,100 +212,188 @@ video#bgvid {
     background-color: gray;
 }
 
-/* All Projects */
+/* #endregion */
 
-.section-project-name-bar {
-    display: flex;
-    width: 40%;
-    max-width: 800px;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    padding: 5px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    background-color: rgb(161 161 161 / 0.5);
-    border: black solid 1px;
+/* #region Games*/
+
+.games-showcase {
+    padding: 3rem 4rem;
+    background-color: #111;
 }
 
-.section-project-name-bar h1 {
-    margin-left: 10%;
-    font-size: 30px;
+.games-header {
+    font-size: 26px;
     color: white;
-    font-weight: bold;
+    margin-bottom: 5vh;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
 }
 
-.projects-grid {
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 16px;
+}
+
+.card-game {
+    position: relative;
+    display: block;
+    aspect-ratio: 2 / 3;
+    text-decoration: none;
+    transition: transform 0.25s ease;
+}
+
+.card-game:hover {
+    transform: scale(1.03);
+}
+
+.card-game img {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-game-info {
+    position: absolute;
+    bottom: 10;
+    left: 0;
+    right: 0;
+    padding: 1.25rem 1rem 1rem;
+    background: linear-gradient(rgba(27, 27, 27, 0.88), transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.game-status {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #aaa;
+}
+
+.game-title {
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Mods */
+
+.mods-showcase {
+    padding: 2.5rem 4rem 3.5rem;
+    background-color: #0d0d0d;
+}
+
+.mods-header {
+    margin-bottom: 1.25rem;
+}
+
+.mods-header h2 {
+    color: #555;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0;
+}
+
+.mods-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.75rem;
+}
+
+.card-mod {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.card-mod:hover {
+    opacity: 0.75;
+}
+
+.card-mod img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+    background-color: #1a1a1a;
+}
+
+.mod-title {
+    color: #666;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0.4rem 0 0;
+    text-align: center;
+}
+
+/* #endregion */
+
+/* #region Softwares */
+
+.softwares-showcase {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 3rem;
-    padding: 0 2rem;
-    margin-bottom: 10vh;
+    padding: 5rem 4rem;
+    background: linear-gradient(rgb(28, 44, 133), rgb(15, 20, 49));
+    min-height: 100vh;
 }
 
-.project-section {
-    display: flex;
-    flex-direction: column;
-    background:
-        radial-gradient(circle at 20% 30%, var(--glow1), transparent 35%),
-        radial-gradient(circle at 80% 70%, var(--glow2), transparent 40%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
+.softwares-grid {
+    display: grid;
+    margin-top: 20vh;
+    max-width: 75%;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
 }
 
-#projects-games {
-    --glow1: rgba(224, 188, 188, 0.15);
-    --glow2: rgba(255, 80, 80, 0.10);
-    --bg1: #2a0f0f;
-    --bg2: #680b0b;
+.card-software {
+    position: relative;
+    display: block;
+    min-width: 450px;
+    aspect-ratio: 16 / 9;
+    color: white;
+
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.25s ease;
 }
 
-#projects-modding {
-    --glow1: rgba(100,180,255,.15);
-    --glow2: rgba(0,120,255,.10);
-    --bg1: #0f172a;
-    --bg2: #172554;
-}
-
-#projects-misc {
-    --glow1: rgba(220,120,255,.15);
-    --glow2: rgba(180,80,255,.10);
-    --bg1: #1e102c;
-    --bg2: #312e81;
-}
-
-#projects-college {
-    --glow1: rgba(255,255,255,0.12);
-    --glow2: rgba(255,255,255,0.08);
-    --bg1: #0f172a;
-    --bg2: #1e293b;
-}
-
-.card-project {
-    width: clamp(150px, 20%, 320px);
-    min-height: 250px;
-    color: transparent;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.card-project img {
+.card-software img {
+    border: 1px solid white;
+    display: block;
     width: 100%;
     height: 100%;
-    aspect-ratio: 2 / 1;
+    object-fit: cover;
 }
 
-.card-project h3 {
-    height: 4vh;
+.card-software-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.25rem 1rem 1rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.88));
     display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: white;
-    background-color: rgb(61 61 61 / 0.15);
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
-/* Models */
+.card-software:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+    transform: translateY(-2px);
+}
+
+/* #endregion */
+
+/* #region Models */
 
 .model-section-title {
     display: flex;
@@ -277,12 +408,20 @@ video#bgvid {
 
 #models-holoparty {
     background-color: #F2AADF;
+    background: linear-gradient(#F2AADF, rgba(228, 120, 179, 0.88));
+    display: flex;
+    flex-direction: column;
+}
+
+#models-tbd {
+    background-color: #464646;
     display: flex;
     flex-direction: column;
 }
 
 #models-misc {
     background-color: #9F8DBE;
+    background: linear-gradient(#be9cf8, rgba(172, 93, 218, 0.88));
     display: flex;
     flex-direction: column;
 }
@@ -384,9 +523,11 @@ figure img {
     color: white;
 }
 
-/* SPECIFIC PROJECT */
+/* #endregion */
 
-#project-view.page-active {
+/* #region Specific Software */
+
+#software-view.page-active {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -394,14 +535,14 @@ figure img {
     background: #dedfe2;
 }
 
-#project-view-container {
+#software-view-container {
     display: flex;
     justify-content: center;
     width: 100%;
     padding: 3rem;
 }
 
-#project-panel {
+#software-panel {
     display: flex;
     width: min(1200px, 90vw);
     height: 75vh;
@@ -411,7 +552,7 @@ figure img {
     gap: 2rem;
 }
 
-#project-info {
+#software-info {
     display: flex;
     flex-direction: column;
     width: 35%;
@@ -454,14 +595,14 @@ figure img {
     background: #2563eb;
 }
 
-#right-project-info {
+#right-software-info {
     display: flex;
     flex-direction: column;
     flex: 1;
     gap: 1rem;
 }
 
-.project-title {
+.software-title {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -470,7 +611,7 @@ figure img {
     font-weight: 700;
 }
 
-#project-image-display {
+#software-image-display {
     flex: 0.8;
     display: flex;
     justify-content: center;
@@ -481,19 +622,19 @@ figure img {
     border: 1px solid rgb(211, 211, 211);
 }
 
-#project-image-display img {
+#software-image-display img {
     width: 100%;
     height: 100%;
     object-fit: fill;
 }
 
-#project-images {
+#software-images {
     display: flex;
     width: 100%;
     gap: 0.75rem;
 }
 
-#project-images img {
+#software-images img {
     width: 100%;
     height: 90px;
     object-fit: cover;
@@ -502,11 +643,13 @@ figure img {
     cursor: pointer !important;
 }
 
-#project-images img:hover {
+#software-images img:hover {
     border-color: #3b82f6;
 }
 
-/* Specific Model */
+/* #endregion */
+
+/* #region Specific Model */
 
 #model-view.page-active {
     display: flex;
@@ -631,7 +774,9 @@ figure img {
     margin: 3%;
 }
 
-/* Animations */
+/* #endregion */
+
+/* #region Animations */
 
 #animations {
     background-color: #0a0a0a;
@@ -645,8 +790,15 @@ figure img {
     margin-bottom: 3rem;
 }
 
+.animation h1 {
+    margin-top: 80%;
+    font-size: 1.25rem;
+}
 
-/* Contact */
+
+/* #endregion */
+
+/* #region Contact */
 
 #about {
     display: flex;
@@ -765,10 +917,11 @@ figure img {
     margin-bottom: 20px;
 }
 
-/* Media Queries (Fiz na pressa, vou consertar quando terminar o site 100%!)*/
+/* #endregion */
 
+/* Media Queries*/
 
-/* Tablet grande */
+/* #region Tablet grande */
 @media (max-width: 1280px) {
     .logo {
         font-size: 0.9rem;
@@ -792,7 +945,8 @@ figure img {
     }
 }
 
-/* Tablet */
+/* #endregion */
+/* #region Tablet */
 @media (max-width: 1024px) {
     .logo {
         font-size: 0.85rem;
@@ -889,7 +1043,8 @@ figure img {
     }
 }
 
-/* Celular grande */
+/* #endregion */
+/* #region Celular grande */
 @media (max-width: 768px) {
     body {
         font-size: 14px;
@@ -1063,7 +1218,8 @@ figure img {
     }
 }
 
-/* Celular pequeno */
+/* #endregion */
+/* #region Celular pequeno */
 @media (max-width: 600px) {
     .logo {
         font-size: 0.7rem;
@@ -1212,17 +1368,4 @@ figure img {
     }
 }
 
-.page-hidden {
-    display: none;
-}
-
-.page-active {
-    display: block;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box;
-}
+/* #endregion */

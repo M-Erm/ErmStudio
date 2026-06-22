@@ -1,0 +1,18 @@
+[
+    {
+        "id": "namastream",
+        "name": "NamaStream",
+        "desc": "A Firefox new tab extension that replaces your browser's default new tab with a real-time dashboard of VTuber live streams and upcoming schedules. Powered by the YouTube Data API.",
+        "status": "Deployed",
+        "stack": "Html, CSS, JavaScript, Typescript, WebExtensions API, Youtube API, Twitch API, Cloudflare Workers",
+        "imagesCount": "4"
+    },
+    {
+        "id": "bootstrapper",
+        "name": "BootStrapper",
+        "desc": "A Unity Projects Launcher/BootStrapper",
+        "status": "In Development",
+        "stack": "Avalonia, C#, .NET, SQLite, EFCore, Velopack, Unity CLI",
+        "imagesCount": "0"
+    }
+]
