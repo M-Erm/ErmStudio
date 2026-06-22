@@ -4,7 +4,7 @@
         "name": "Mococo Abyssgard",
         "desc": "Unofficial",
         "type": "HoloParty",
-        "imagesCount": "4",
+        "imagesCount": "5",
         "model": "",
         "sketchfab": ""
     },
@@ -14,7 +14,7 @@
         "name": "Fuwawa Abyssgard",
         "desc": "Unofficial",
         "type": "HoloParty",
-        "imagesCount": "4",
+        "imagesCount": "5",
         "model": "",
         "sketchfab": ""
     },
@@ -24,7 +24,7 @@
         "name": "",
         "desc": "Unofficial",
         "type": "HoloParty",
-        "imagesCount": "4",
+        "imagesCount": "0",
         "model": "",
         "sketchfab": ""
     },
@@ -34,7 +34,7 @@
         "name": "Evil Neuro",
         "desc": "Unofficial",
         "type": "Miscellaneous",
-        "imagesCount": "4",
+        "imagesCount": "0",
         "model": "",
         "sketchfab": ""
     }

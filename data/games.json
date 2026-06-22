@@ -5,15 +5,15 @@
         "desc": "HoloParty is A Co-op Multiplayer Unofficial Hololive game with fun minigames!",
         "status": "In Development",
         "stack": "Unity, Blender, C#",
-        "imagesCount": "4"
+        "imagesCount": "5"
     },
 
     {
         "id": "game2",
-        "name": "????????",
+        "name": "Game 2",
         "desc": "TBA",
         "status": "In Development",
         "stack": "Unity, Blender, C#",
-        "imagesCount": "4"
+        "imagesCount": "0"
     }
 ]
